@@ -1,0 +1,50 @@
+%btn {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: $font-fam-header;
+    padding: 10px 25px;
+    position: relative;
+    border-style: none;
+    cursor: pointer;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    letter-spacing: 2px;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        border: 5px solid;
+        border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    }
+    &:focus,
+    &:hover,
+    &:active {
+        outline: none;
+        border-radius: 15px 225px 15px 255px/255px 15px 225px 15px;
+        &:after {
+            border-radius: 15px 225px 15px 255px/255px 15px 225px 15px;
+        }
+    }
+}
+
+.bottom-btns {
+    text-align: right;
+    margin-top: 30px;
+    .back {
+        float: left;
+    }
+}
+
+.btn-action {
+    @extend %btn;
+    background: GetColour(red, dark);
+    color: white;
+    border-color: white;
+    &:hover,
+    &:active {
+        background: darken(GetColour(red, dark), 5%);
+    }
+}

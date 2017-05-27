@@ -1,0 +1,10 @@
+$ColourPalette: ( mono: ( lightest: white, light: #7a7979, mid: #565353, dark: #353434, darkest: black), red: ( light: #846b6b, mid: #660404, dark: #422b2b, ));
+@function GetColour($palette, $tone: "mid") {
+    @return map-get(map-get($ColourPalette, $palette), $tone);
+}
+
+$font-fam-header: 'Neucha',
+sans-serif;
+$font-fam-body: 'Advent Pro',
+sans-serif;
+$font-size-base: 22px;

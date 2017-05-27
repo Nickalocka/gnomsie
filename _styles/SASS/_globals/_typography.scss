@@ -1,0 +1,74 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-fam-header;
+    padding: 0px;
+    margin: 5px 0px;
+    font-weight: normal;
+    color: GetColour(red, dark);
+    padding-bottom: 3px;
+    border-bottom: 1px solid GetColour(red, dark);
+}
+
+h1 {
+    font-size: 42px;
+    line-height: 55px;
+}
+
+h2 {
+    font-size: 36px;
+    line-height: 50px;
+}
+
+h3 {
+    font-size: 32px;
+    line-height: 45px;
+}
+
+h4 {
+    font-size: 28px;
+    line-height: 40px;
+}
+
+h5 {
+    font-size: 26px;
+    line-height: 40px;
+}
+
+h6 {
+    font-size: 22px;
+    line-height: 35px;
+}
+
+%link {
+    font-family: $font-fam-header;
+    text-decoration: none;
+    color: GetColour(red, mid);
+    cursor: pointer;
+        i {
+        vertical-align: text-bottom;
+    }
+
+    &:hover,
+    &:active {
+        color: GetColour(mono, darkest);
+    }
+}
+
+.link {
+    @extend %link;
+}
+
+.link-underline {
+    @extend %link;
+    border-bottom: 1px solid GetColour(red, mid);
+
+    &:hover,
+    &:hover {
+        color: GetColour(mono, darkest);
+        border-bottom: 1px solid GetColour(mono, darkest);
+    }
+}

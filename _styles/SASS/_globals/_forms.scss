@@ -1,0 +1,16 @@
+.seamless-textarea {
+    font-size: inherit;
+    line-height: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border: 0;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    background: transparent;
+    height: 0px;
+    &:focus {
+        outline: 0px;
+    }
+}
