@@ -13,6 +13,7 @@ var global = (function (_module) {
 
     var WireEvents = function () {
         global.toggle_collapse.Init();
+        global.auto_resize_textarea.Init();
     };
 
     return _module;

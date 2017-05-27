@@ -12,7 +12,7 @@ if ($PostID != "0") {
 <div id="blog-wrapper">  
 
     <section class="blog-post" data-container="blog-post">
-        
+
         <nav class="blog-post_controls">
             <div class="controls-menu_toggle" data-collapse="toggle" data-collapse-target="controls-menu">
                 <i class="icon-menu"></i>
@@ -24,11 +24,11 @@ if ($PostID != "0") {
                         <span class="text">Add:</span>
                     </div>
                     <div class="link control" data-add-control="title">                    
-                    <span class="text">Title</span>
-                </div>
-                <div class="link control" data-add-control="text_block">
-                    <span class="text">Text Block</span>
-                </div>
+                        <span class="text">Title</span>
+                    </div>
+                    <div class="link control" data-add-control="text_block">
+                        <span class="text">Text Block</span>
+                    </div>
                 </div>                
                 <div class="link control" data-blog-content-controls="toggle">
                     <span class="icon"><i class="icon-eye"></i></span> 
@@ -39,19 +39,21 @@ if ($PostID != "0") {
 
         <header class="blog-post_title">
             <h1> 
-                <?php if($EditMode)  {
-                    echo "<textarea class='seamless-textarea' data-blog-post='title'>" . $blog_post['Title'] . "</textarea>";                      
-                } else { 
-                    echo "<textarea class='seamless-textarea' data-blog-post='title'/>Type Title Here</textarea>";   
-                } ?>
+                <?php
+                if ($EditMode) {
+                    echo "<textarea class='seamless-textarea' data-textarea='auto-resize' data-blog-post='title'>" . $blog_post['Title'] . "</textarea>";
+                } else {
+                    echo "<textarea class='seamless-textarea' data-textarea='auto-resize' data-blog-post='title'/>Type Title Here</textarea>";
+                }
+                ?>
             </h1>                    
         </header>
 
         <article class="blog-post_content" data-container="blog-post_content">
-            <?php 
-                if($EditMode) {
-                    echo $blog_post['Content'];
-                };
+            <?php
+            if ($EditMode) {
+                echo $blog_post['Content'];
+            };
             ?>
         </article>
 
@@ -59,7 +61,7 @@ if ($PostID != "0") {
 
     <div class="bottom-btns">
         <a class="link back" href="<?php echo $PATH_HTML_ADMIN ?>/blog"><i class="icon-chevron-left"></i>Back to Post List</a>
-        <button class="btn-action" data-blog-post="save" data-blog-post-id="<?php if($EditMode) echo $blog_post['ID'] ?>"> Save </button>
+        <button class="btn-action" data-blog-post="save" data-blog-post-id="<?php if ($EditMode) echo $blog_post['ID'] ?>"> Save </button>
     </div>
 
 </div>

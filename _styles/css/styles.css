@@ -1679,7 +1679,8 @@ h6 {
   resize: none;
   overflow: hidden;
   background: transparent;
-  height: 0px; }
+  height: 0px;
+  padding: 0; }
   .seamless-textarea:focus {
     outline: 0px; }
 

@@ -13,6 +13,7 @@ var global = (function (_module) {
 
     var WireEvents = function () {
         global.toggle_collapse.Init();
+        global.auto_resize_textarea.Init();
     };
 
     return _module;
@@ -49,6 +50,29 @@ var admin = (function (_module) {
 // var admin = (function (_module) {
 //     return _module;
 // })();
+global.auto_resize_textarea = (function (_module) {
+
+    _module.Init = function () {
+        WireEvents();
+    };
+
+    var WireEvents = function () {
+        $("[data-textarea='auto-resize']").each(function () {
+            _module.AutoSize(this);
+        });
+
+        $("[data-textarea='auto-resize']").off().on("input", function () {
+            _module.AutoSize(this);
+        });
+    };
+
+    _module.AutoSize = function (textarea) {
+        $(textarea).height(1);
+        $(textarea).height($(textarea).prop("scrollHeight"));
+    };
+
+    return _module;
+}(global.auto_resize_textarea || {}));
 global.toggle_collapse = (function (_module) {
 
     _module.Init = function(){
@@ -66,20 +90,20 @@ global.toggle_collapse = (function (_module) {
 
 	return _module;
 }(global.toggle_collapse || {}));
-admin.blog_posts = (function (_module) {
+admin.blog_post_edit = (function (_module) {
 
-    var settings = {
+    var settings = {        
         content_block_controls: {
             hidden: function(){
                 var hidden = localStorage.getItem("admin_blog_content_block_controls_hidden");
                 if(hidden === null){
-                    return false;
+                    return "false";
                 } else {
                     return hidden;
                 }
             },
             class: function () {
-                if (settings.content_block_controls.hidden) {
+                if (settings.content_block_controls.hidden() === "true") {
                     return "controls-hidden";
                 } else {
                     return "";
@@ -93,24 +117,15 @@ admin.blog_posts = (function (_module) {
     };
 
     var WireEvents = function () {
+        $(document).ready(function(){
+           CheckContentBlockControlsSettings(); 
+        });
         $('[data-blog-post="save"]').off().on("click", SaveBlogPost);
         $('[data-blog-post="delete"]').off().on("click", DeleteBlogPost);
         $('[data-add-control]').off().on("click", InsertContentBlock);
         //TODO - look into best place to bind this
         $("#blog-wrapper").off().on("click", "[data-content-block-move]", MoveContentBlock);
         $('[data-blog-content-controls="toggle"]').off().on("click", ToggleContentBlockControls);
-        //TODO - look into best place to bind this
-        $('[data-container="blog-post"]').off().on("input", "textarea", function () {
-            AutoSizeTextarea(this);
-        });
-        $("textarea").each(function () {
-            AutoSizeTextarea(this);
-        });
-    };
-
-    var AutoSizeTextarea = function (textarea) {
-        $(textarea).height(1);
-        $(textarea).height($(textarea).prop("scrollHeight"));
     };
 
     var InsertContentBlock = function () {
@@ -134,16 +149,16 @@ admin.blog_posts = (function (_module) {
         var templates = {
             title:
                     masterTemplate.top +
-                    "<h1><textarea class='seamless-textarea'>Type your title here</textarea></h1>" +
+                    "<h1><textarea data-textarea='auto-resize' class='seamless-textarea'>Type your title here</textarea></h1>" +
                     masterTemplate.bottom,
             text_block:
                     masterTemplate.top +
-                    "<p><textarea class='seamless-textarea'>Type your text here</textarea></p>" +
+                    "<p><textarea class='seamless-textarea' data-textarea='auto-resize'>Type your text here</textarea></p>" +
                     masterTemplate.bottom
         };
 
         contentChunk.append(templates[InsertType]);
-        AutoSizeTextarea($("[data-content-block='" + id + "']").find("textarea"));
+        global.auto_resize_textarea.Init();
     };
 
     var MoveContentBlock = function () {
@@ -215,7 +230,6 @@ admin.blog_posts = (function (_module) {
             url: global.settings.RootPathAdmin + "/blog/php_functions/save-blog-post.php",
             data: {PostID: PostID, PostDate: today, Title: Title, Content: Content},
             success: function (resp) {
-                debugger;
                 var postID = resp;
                 var FeedbackType = "positive";
                 var FeedbackMessage = "Post Saved Successfully";
@@ -259,16 +273,27 @@ admin.blog_posts = (function (_module) {
 
     var ToggleContentBlockControls = function () {
         var ContentBlock = $('[data-content-block]');
-        if (settings.content_block_controls.hidden) {
-            settings.content_block_controls.hidden = false;
+        if (settings.content_block_controls.hidden() === "true") {
             localStorage.setItem("admin_blog_content_block_controls_hidden", "false");
             ContentBlock.removeClass("controls-hidden");
+            $('[data-blog-content-controls="toggle"] .text').html("Hide Controls");
         } else {
-            settings.content_block_controls.hidden = true;
             localStorage.setItem("admin_blog_content_block_controls_hidden", "true");
             ContentBlock.addClass("controls-hidden");
+            $('[data-blog-content-controls="toggle"] .text').html("Show Controls");
         }
     };
-
+    
+    var CheckContentBlockControlsSettings = function(){
+        var ContentBlock = $('[data-content-block]');
+        if (settings.content_block_controls.hidden() === "true") {
+            ContentBlock.addClass("controls-hidden");
+            $('[data-blog-content-controls="toggle"] .text').html("Show Controls");
+        } else {
+            ContentBlock.removeClass("controls-hidden");
+            $('[data-blog-content-controls="toggle"] .text').html("Hide Controls");
+        }
+    };
+    
     return _module;
-}(admin.blog_posts || {}));
+}(admin.blog_post_edit || {}));
